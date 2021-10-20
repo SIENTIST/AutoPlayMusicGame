@@ -80,9 +80,11 @@ void MainWindow::on_StartBtn_clicked()
 //https://www.fearlazy.com/index.php/post/167.html
 void MainWindow::on_keyboardBtn_clicked()
 {
+    //按下键盘按键
     keybd_event(VK_MENU, 0, 0, 0);  //alt
     keybd_event('A', 0, 0, 0);  //A
 
+    //弹起键盘按键
     keybd_event(VK_MENU, 0, 2, 0);  //alt
     keybd_event('A', 0, 2, 0);  //A
 }
