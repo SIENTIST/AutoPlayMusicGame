@@ -1,2 +1,2 @@
-﻿# AutoPlayMusicGame 尚未开发完毕
+﻿# AutoPlayMusicGame 尚未完成开发
 
