@@ -52,15 +52,16 @@ bool MainWindow::judge_A_startPress(const QImage* pInputImg)
     blueAverage /= count;
     redAverage /= count;
 
-    qDebug() << "blue: " << blueAverage;
+    //qDebug() << "blue: " << blueAverage;
 
-    if(blueAverage > 250 && redAverage > 50 && redAverage < 200)
+    int blueThresold = 200;
+    if(blueAverage > blueThresold && redAverage > 50 && redAverage < 200)
     {
-        if(QColor(pInputImg->pixel(287, 568)).blue() > 250
-        && QColor(pInputImg->pixel(289, 568)).blue() > 250
-        && QColor(pInputImg->pixel(291, 568)).blue() > 250
-        && QColor(pInputImg->pixel(293, 568)).blue() > 250
-        && QColor(pInputImg->pixel(295, 568)).blue() > 250)
+        if(QColor(pInputImg->pixel(287, 568)).blue() > blueThresold
+        && QColor(pInputImg->pixel(289, 568)).blue() > blueThresold
+        && QColor(pInputImg->pixel(291, 568)).blue() > blueThresold
+        && QColor(pInputImg->pixel(293, 568)).blue() > blueThresold
+        && QColor(pInputImg->pixel(295, 568)).blue() > blueThresold)
         {
             return true;
         }
