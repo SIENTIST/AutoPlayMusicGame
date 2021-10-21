@@ -78,8 +78,6 @@ bool MainWindow::judge_A_startPress(const QImage* pInputImg)
 
 bool MainWindow::judge_A_finishPress(const QImage* pInputImg)
 {
-    qDebug() << "update";
-
     if(QColor(pInputImg->pixel(287, 568)).blue() < 250
     && QColor(pInputImg->pixel(289, 568)).blue() < 250
     && QColor(pInputImg->pixel(291, 568)).blue() < 250
@@ -93,7 +91,6 @@ bool MainWindow::judge_A_finishPress(const QImage* pInputImg)
         return false;
     }
 }
-
 void MainWindow::A_longPressControl(const QImage* pImg)
 {
     static int A_pressFlag = 0;
@@ -106,6 +103,8 @@ void MainWindow::A_longPressControl(const QImage* pImg)
 
     if(A_pressFlag == 1 && judge_A_finishPress(pImg))
     {
+        qDebug() << "A finish  press";
+
         keybd_event('A', 0, 2, 0);  //A
         A_pressFlag = 0;
     }
@@ -118,14 +117,105 @@ void MainWindow::A_longPressControl(const QImage* pImg)
     }
 }
 
+bool MainWindow::judge_W_startPress(const QImage* pInputImg)
+{
+    float blueAverage = 0;
+    float redAverage = 0;
+    int count = 0;
+
+    int xStart = 455, yStart = 400 - 20;
+    for(int x = xStart; x < xStart + 65; x++)    // x:620 ~ 685  y: 570
+    {
+        for(int y = yStart; y < yStart + 20; y++)
+        {
+            count ++;
+            QColor pointColor;
+            pointColor = QColor(pInputImg->pixel(x, y));
+            blueAverage += pointColor.blue(); //读取单个像素点的色值
+            redAverage += pointColor.red();
+        }
+    }
+
+    blueAverage /= count;
+    redAverage /= count;
+
+    //qDebug() << "blue: " << blueAverage;
+
+    int blueThresold = 200;
+    if(blueAverage > blueThresold && redAverage > 50 && redAverage < 200)
+    {
+        int xT = 457; int yT = 400;
+
+        if(QColor(pInputImg->pixel(xT,     yT)).blue() > blueThresold
+        && QColor(pInputImg->pixel(xT + 2, yT)).blue() > blueThresold
+        && QColor(pInputImg->pixel(xT + 4, yT)).blue() > blueThresold
+        && QColor(pInputImg->pixel(xT + 6, yT)).blue() > blueThresold
+        && QColor(pInputImg->pixel(xT + 8, yT)).blue() > blueThresold)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}
+bool MainWindow::judge_W_finishPress(const QImage* pInputImg)
+{
+    int xT = 457; int yT = 400;
+
+    if(QColor(pInputImg->pixel(xT,     yT)).blue() < 250
+    && QColor(pInputImg->pixel(xT + 2, yT)).blue() < 250
+    && QColor(pInputImg->pixel(xT + 4, yT)).blue() < 250
+    && QColor(pInputImg->pixel(xT + 6, yT)).blue() < 250
+    && QColor(pInputImg->pixel(xT + 8, yT)).blue() < 250)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+void MainWindow::W_longPressControl(const QImage* pImg)
+{
+    static int W_pressFlag = 0;
+
+    if(W_pressFlag == 0 && judge_W_startPress(pImg))
+    {
+        keybd_event('W', 0, 0, 0);  //W
+        W_pressFlag = 1;
+    }
+
+    if(W_pressFlag == 1 && judge_W_finishPress(pImg))
+    {
+        keybd_event('W', 0, 2, 0);  //W
+        W_pressFlag = 0;
+
+        qDebug() << "W finish  press";
+    }
+
+    if(W_pressFlag == 1)
+    {
+        static int s_count = 0;
+        qDebug() << "press W " <<s_count;
+        s_count ++;
+    }
+}
+
+
 void MainWindow::keyboardLongPress()
 {
-
     QImage* pScreenImg = new QImage;
 
     getFullScreenImg(pScreenImg);
 
     A_longPressControl(pScreenImg);
+    W_longPressControl(pScreenImg);
 
     delete  pScreenImg;
 }

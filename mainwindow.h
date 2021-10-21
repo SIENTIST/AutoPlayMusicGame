@@ -31,6 +31,8 @@ private:
     bool judge_A_finishPress(const QImage* pInputImg);
 
     bool judge_W_startPress(const QImage* pInputImg);
+    bool judge_W_finishPress(const QImage* pInputImg);
+
     bool judge_D_startPress(const QImage* pInputImg);
 
     bool judge_J_startPress(const QImage* pInputImg);
@@ -39,6 +41,7 @@ private:
     void getFullScreenImg(QImage *pOutImg);
 
     void A_longPressControl(const QImage* pImg);
+    void W_longPressControl(const QImage* pImg);
 
 private:
     Ui::MainWindow *ui;
