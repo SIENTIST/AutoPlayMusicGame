@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -29,19 +29,19 @@ private slots:
 private:
     bool judge_A_startPress(const QImage* pInputImg);
     bool judge_A_finishPress(const QImage* pInputImg);
+    void A_longPressControl(const QImage* pImg);
 
     bool judge_W_startPress(const QImage* pInputImg);
     bool judge_W_finishPress(const QImage* pInputImg);
+    void W_longPressControl(const QImage* pImg);
 
     bool judge_D_startPress(const QImage* pInputImg);
+    bool judge_D_finishPress(const QImage* pInputImg);
+    void D_longPressControl(const QImage* pImg);
 
-    bool judge_J_startPress(const QImage* pInputImg);
-    bool judge_I_startPress(const QImage* pInputImg);
-    bool judge_L_startPress(const QImage* pInputImg);
     void getFullScreenImg(QImage *pOutImg);
 
-    void A_longPressControl(const QImage* pImg);
-    void W_longPressControl(const QImage* pImg);
+
 
 private:
     Ui::MainWindow *ui;
