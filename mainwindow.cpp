@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QScreen>
@@ -168,11 +168,12 @@ bool MainWindow::judge_W_finishPress(const QImage* pInputImg)
 {
     int xT = 457; int yT = 400;
 
-    if(QColor(pInputImg->pixel(xT,     yT)).blue() < 250
-    && QColor(pInputImg->pixel(xT + 2, yT)).blue() < 250
-    && QColor(pInputImg->pixel(xT + 4, yT)).blue() < 250
-    && QColor(pInputImg->pixel(xT + 6, yT)).blue() < 250
-    && QColor(pInputImg->pixel(xT + 8, yT)).blue() < 250)
+    int thresold = 220;
+    if(QColor(pInputImg->pixel(xT,     yT)).blue() < thresold
+    && QColor(pInputImg->pixel(xT + 2, yT)).blue() < thresold
+    && QColor(pInputImg->pixel(xT + 4, yT)).blue() < thresold
+    && QColor(pInputImg->pixel(xT + 6, yT)).blue() < thresold
+    && QColor(pInputImg->pixel(xT + 8, yT)).blue() < thresold)
     {
         return true;
     }
@@ -201,9 +202,18 @@ void MainWindow::W_longPressControl(const QImage* pImg)
 
     if(W_pressFlag == 1)
     {
+        //按下键盘按键
+        keybd_event('W', 0, 0, 0);  //A
+
+
         static int s_count = 0;
         qDebug() << "press W " <<s_count;
         s_count ++;
+    }
+    else
+    {
+            //弹起键盘按键
+            keybd_event('W', 0, 2, 0);  //A
     }
 }
 
@@ -216,6 +226,10 @@ void MainWindow::keyboardLongPress()
 
     A_longPressControl(pScreenImg);
     W_longPressControl(pScreenImg);
+
+
+
+
 
     delete  pScreenImg;
 }
@@ -249,9 +263,17 @@ void MainWindow::on_StartBtn_clicked()
 //        return;
 //    }
 
+    //按下键盘按键
+//    keybd_event('Q', 0, 0, 0);  //A
+
+//    //弹起键盘按键
+//    keybd_event('Q', 0, 2, 0);  //A
+
     QTimer *timer_Akey = new QTimer(this);
     connect(timer_Akey, SIGNAL(timeout()), this, SLOT(keyboardLongPress()));
     timer_Akey->start(10);  //单位：毫秒  设定每隔多少毫秒执行一次
+
+
 
 
 /*
@@ -285,13 +307,22 @@ void MainWindow::on_StartBtn_clicked()
 //https://www.fearlazy.com/index.php/post/167.html
 void MainWindow::on_keyboardBtn_clicked()
 {
+//    //按下键盘按键
+//    keybd_event(VK_MENU, 0, 0, 0);  //alt
+//    keybd_event('A', 0, 0, 0);  //A
+
+//    //弹起键盘按键
+//    keybd_event(VK_MENU, 0, 2, 0);  //alt
+//    keybd_event('A', 0, 2, 0);  //A
+
     //按下键盘按键
-    keybd_event(VK_MENU, 0, 0, 0);  //alt
-    keybd_event('A', 0, 0, 0);  //A
+    keybd_event('Q', 0, 0, 0);  //A
 
     //弹起键盘按键
-    keybd_event(VK_MENU, 0, 2, 0);  //alt
-    keybd_event('A', 0, 2, 0);  //A
+    keybd_event('Q', 0, 2, 0);  //A
+//    keybd_event('W', 0, 0, 0);  //A
 }
+
+
 
 
